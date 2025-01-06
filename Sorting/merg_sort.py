@@ -1,40 +1,36 @@
-def merge(arr,low,mid,high):
-    temp = []
-    left = low # starting index of left half of arr
-    right = mid+1 # starting index of right half of arr
+def merge(arr,l,m,r):
+    # create temporary array
+    left = arr[l:m+1] # Left half
+    right = arr[m+1:r+1]   # Right half
 
+    i,j,k = 0, 0, l
 
-    while left <= mid and right <= high:
-        if arr[left] <= arr[right]:
-            temp.append(arr[left])
-            left += 1
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            arr[k] = left[i]
+            i += 1
         else:
-            temp.append(arr[right])
-            right += 1
+            arr[k] = right[j]
+            j += 1
+        k += 1
+    
+    while i < len(left):
+        arr[k] = left[i]
+        i += 1
+        k += 1
 
-    # If elements on the left half are still left
-    while left <= mid:
-        temp.append(arr[left])
-        left += 1
+    while j < len(right):
+        arr[k] = right[j]
+        j += 1
+        k += 1
 
-    # If elements on the right half are still left
-    while right <= high:
-        temp.append(arr[right])
-        right += 1
-
-
-    for i in range(low, high + 1):
-        arr[i] = temp[i - low] 
-        print(arr[i],end=" ")   
-    print(" ")  
-
-def merge_sort(arr,low,high):
-    if low >= high:
+def merge_sort(arr,l,r):
+    if l >= r:
         return
-    mid = (low+high)//2
-    merge_sort(arr,low,mid)
-    merge_sort(arr,mid+1,high)
-    merge(arr,low,mid,high)
+    m = (l+r)//2
+    merge_sort(arr,l,m)
+    merge_sort(arr,m+1,r)
+    merge(arr,l,m,r)
 
 if __name__ == "__main__":
     arr = [9, 4, 7, 6, 3, 1, 5]
